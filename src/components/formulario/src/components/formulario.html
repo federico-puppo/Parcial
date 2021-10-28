@@ -1,0 +1,123 @@
+
+<section class="src-componentes-formulario-av">
+  <div class="jumbotron">
+    <h2>Gastos</h2>
+    <hr>
+    <hr>
+    <br>
+
+    <vue-form :state="formState" @submit.prevent="enviar()">
+ 
+      <!-- ------------ -->
+      <!-- Campo nombre -->
+      <!-- ------------ -->
+      <validate tag="div">
+        <label for="nombre">Nombre</label>
+        <input 
+          type="text"
+          id="nombre"
+          v-model.trim="formData.nombre"
+          name="nombre" 
+          class="form-control"
+          autocomplete="off"
+          required 
+          :minlength="nombreMinLength"
+          :maxlength="nombreMaxLength"
+          no-espacios
+        />
+        <!-- Mensajes de validación del campo nombre -->
+        <field-messages name="nombre" show="$dirty">
+          <div slot="required" class="alert alert-danger mt-1">Campo requerido</div>
+          <div slot="no-espacios" class="alert alert-danger mt-1">
+            No se permiten espacios intermedios en este campo.
+          </div>
+          <div slot="minlength" class="alert alert-danger mt-1">
+            Este campo debe poseer al menos {{ nombreMinLength }} caracteres
+          </div>
+          <div v-if="formData.nombre.length == nombreMaxLength" class="alert alert-danger mt-1">
+            Este campo debe poseer como máximo {{ nombreMaxLength }} caracteres
+          </div>
+        </field-messages>
+      </validate>
+      <br>
+
+      <!-- -------------- -->
+      <!-- Campo descripcion -->
+      <!-- -------------- -->
+      <validate tag="div">
+        <label for="descripcion">Descripcion</label>
+        <input 
+          type="text"
+          id="descripcion"
+          v-model.trim="formData.descripcion"
+          name="descripcion" 
+          class="form-control"
+          autocomplete="off"
+          required 
+        />
+        <!-- Mensajes de validación del campo apellido -->
+        <field-messages name="descripcion" show="$dirty">
+          <div slot="required" class="alert alert-danger mt-1">Campo requerido</div>
+        </field-messages>
+      </validate>
+      <br>
+      
+      <!-- -------------- -->
+      <!--   Campo edad   -->
+      <!-- -------------- -->
+      <validate tag="div">
+        <label for="importe">Importe</label>
+        <input 
+          type="number"
+          id="importe"
+          v-model.number="formData.importe"
+          name="importe" 
+          class="form-control"
+          autocomplete="off"
+          required 
+        />
+        <!-- Mensajes de validación del campo edad -->
+        <field-messages name="importe" show="$dirty">
+          <div slot="required" class="alert alert-danger mt-1">Campo requerido</div>
+        </field-messages>
+      </validate>
+      <br>
+      
+      <button class="btn btn-success my-3" :disabled="formState.$invalid" type="submit">Enviar</button>
+    </vue-form>
+
+    <div class="jumbotron">
+      <h2>Tabla de gastos</h2>
+      <hr>
+      <div v-if="datos.length">
+        <div class="table-responsive">
+          <table class="table table-dark">
+              <tr>
+                  <th>Nombre</th>
+                  <th>Descripcion</th>
+                  <th>Importe</th>
+                  <th>Fecha</th>
+              </tr>
+              <tr v-for="(datos,index) in datos" :key="index">
+                  <td>{{ datos.nombre }}</td>
+                  <td>{{ datos.descripcion }}</td>
+                  <td>{{ datos.importe }}</td>
+                  <td>{{ datos.fecha }}</td>
+              </tr>
+              <tr>
+                Gasto Total: {{ datos.gastoTotal}}                
+              </tr>
+          </table>
+    </div>
+    <hr>
+</div>
+<h3 v-else class="alert alert-warning">
+    No se encontraron gastos
+</h3>
+<hr>      
+</div>
+
+  </div>
+  </div>
+</section>
+
